@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Share2, CheckCircle } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import CreationForm from '@/components/forms/CreationForm';
@@ -14,8 +14,7 @@ const CreatePage: React.FC = () => {
     creationForm, 
     detectedProduct, 
     isLoading, 
-    setIsLoading,
-    reset 
+    setIsLoading
   } = useAppStore();
 
   const handlePublish = async () => {
@@ -110,7 +109,7 @@ const CreatePage: React.FC = () => {
                 <h4 className="font-medium text-blue-900 mb-1">Desktop Experience</h4>
                 <p className="text-sm text-blue-700">
                   For the best experience creating group buys, try using a desktop computer. 
-                  You'll see a live preview of your group buy as you create it.
+                  You&apos;ll see a live preview of your group buy as you create it.
                 </p>
               </div>
             </div>

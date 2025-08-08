@@ -89,7 +89,7 @@ const CreationForm: React.FC = () => {
               <div>
                 <h4 className="font-medium text-blue-900 mb-1">Smart Defaults</h4>
                 <p className="text-sm text-blue-700">
-                  We've set reasonable defaults for your group buy. You can adjust these anytime.
+                  We&apos;ve set reasonable defaults for your group buy. You can adjust these anytime.
                 </p>
               </div>
             </div>

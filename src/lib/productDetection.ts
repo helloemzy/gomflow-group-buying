@@ -154,7 +154,7 @@ export async function detectProduct(url: string): Promise<ProductDetectionResult
     }
 
     // Check if URL is from supported retailer
-    const retailer = Object.entries(RETAILERS).find(([_, config]) => 
+    const retailer = Object.entries(RETAILERS).find(([, config]) => 
       config.pattern.test(url)
     );
 
@@ -200,7 +200,7 @@ export async function detectProduct(url: string): Promise<ProductDetectionResult
 }
 
 export function getRetailerFromUrl(url: string): string | null {
-  const retailer = Object.entries(RETAILERS).find(([_, config]) => 
+  const retailer = Object.entries(RETAILERS).find(([, config]) => 
     config.pattern.test(url)
   );
   return retailer ? retailer[0] : null;

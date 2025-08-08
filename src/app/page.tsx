@@ -8,9 +8,7 @@ import {
   Truck, 
   DollarSign, 
   ArrowRight, 
-  CheckCircle,
-  Star,
-  TrendingUp
+  Star
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
@@ -232,7 +230,7 @@ const HomePage: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-gray-600 mb-4">
-                    "{testimonial.content}"
+                    &ldquo;{testimonial.content}&rdquo;
                   </p>
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (

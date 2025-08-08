@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Users, DollarSign, Truck, Clock } from 'lucide-react';
+import { Calendar, Users } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
-import Card from '@/components/ui/Card';
 
 const GroupBuyPreview: React.FC = () => {
   const { creationForm, detectedProduct, previewMode } = useAppStore();
