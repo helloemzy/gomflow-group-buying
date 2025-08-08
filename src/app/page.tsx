@@ -33,6 +33,11 @@ const HomePage: React.FC = () => {
                   Sign In
                 </Button>
               </Link>
+              <Link href="/signup">
+                <Button variant="outline" size="sm">
+                  Sign Up
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

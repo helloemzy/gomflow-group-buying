@@ -196,12 +196,21 @@ const BrowsePage: React.FC = () => {
               <span className="text-sm text-gray-600">
                 {getCountryFlag(userCountry)} {userCountry}
               </span>
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
-              <Button size="sm">
-                Create Order
-              </Button>
+              <Link href="/login">
+                <Button variant="outline" size="sm">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/signup">
+                <Button variant="outline" size="sm">
+                  Sign Up
+                </Button>
+              </Link>
+              <Link href="/create">
+                <Button size="sm">
+                  Create Order
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

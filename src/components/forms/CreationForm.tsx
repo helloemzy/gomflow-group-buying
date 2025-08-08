@@ -4,6 +4,8 @@ import { Calendar, Users, Edit3, Globe, DollarSign, Truck, Sparkles } from 'luci
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import UrlInput from './UrlInput';
+import PricingAIModal from '@/components/ai/PricingAIModal';
+import ShippingAIModal from '@/components/ai/ShippingAIModal';
 import { useAppStore } from '@/lib/store';
 import { getAllCountries, PRODUCT_CATEGORIES, DEFAULT_VALUES } from '@/lib/constants';
 import { CountryCode } from '@/types';
@@ -273,6 +275,10 @@ const CreationForm: React.FC = () => {
           </motion.div>
         </div>
       </div>
+      
+      {/* AI Modals */}
+      <PricingAIModal />
+      <ShippingAIModal />
     </div>
   );
 };

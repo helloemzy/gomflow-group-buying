@@ -48,13 +48,21 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 - **Responsive design** - Works on desktop and mobile
 - **Delightful animations** - Framer Motion powered interactions
 - **Smart defaults** - Pre-filled with reasonable values
+- **User authentication** - Login and signup flows with mock authentication
+- **User dashboard** - Profile management, order tracking, and settings
+- **AI-powered features** - Pricing and shipping optimization assistants
+- **Browse functionality** - Filter and search through group orders
+- **Order detail pages** - Complete order information with payment flow
+- **Legal pages** - Terms of Service and Privacy Policy
+- **API routes** - Product scraping endpoint for development
 
 ### 🚧 Coming Soon
-- User authentication
-- Database integration
-- Group buy participation flow
-- Payment processing
+- Database integration with Supabase
+- Real payment processing
 - Email notifications
+- Push notifications
+- Advanced analytics
+- Mobile app
 
 ## 🏗️ Architecture
 
