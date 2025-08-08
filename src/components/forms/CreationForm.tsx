@@ -172,7 +172,10 @@ const CreationForm: React.FC = () => {
                 step="0.01"
                 placeholder="0.00"
                 value={creationForm.individual_price || ''}
-                onChange={(e) => handleInputChange('individual_price', parseFloat(e.target.value) || undefined)}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  handleInputChange('individual_price', isNaN(value) ? 0 : value);
+                }}
                 leftIcon={<DollarSign className="w-5 h-5" />}
               />
               
@@ -183,7 +186,10 @@ const CreationForm: React.FC = () => {
                 step="0.01"
                 placeholder="0.00"
                 value={creationForm.group_price || ''}
-                onChange={(e) => handleInputChange('group_price', parseFloat(e.target.value) || 0)}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  handleInputChange('group_price', isNaN(value) ? 0 : value);
+                }}
                 leftIcon={<DollarSign className="w-5 h-5" />}
               />
             </div>
@@ -241,7 +247,7 @@ const CreationForm: React.FC = () => {
               label="Payment Deadline"
               type="date"
               value={creationForm.payment_deadline || ''}
-              onChange={(e) => handleInputChange('payment_deadline', e.target.value || undefined)}
+              onChange={(e) => handleInputChange('payment_deadline', e.target.value || '')}
               leftIcon={<Calendar className="w-5 h-5" />}
             />
           </div>

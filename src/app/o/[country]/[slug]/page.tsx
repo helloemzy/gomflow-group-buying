@@ -12,7 +12,7 @@ import {
   Phone,
   Mail
 } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
 import { GroupOrder } from '@/types';
 import { formatCurrency, getCountryFlag } from '@/lib/constants';
@@ -104,7 +104,6 @@ const MOCK_ORDER: GroupOrder = {
 };
 
 const OrderPage: React.FC = () => {
-  const params = useParams();
   const router = useRouter();
   const { user } = useAppStore();
   
