@@ -79,6 +79,18 @@ CREATE TABLE IF NOT EXISTS public.request_votes (
   PRIMARY KEY (request_id, user_id)
 );
 
+-- Create notifications table
+CREATE TABLE IF NOT EXISTS public.notifications (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id UUID REFERENCES public.users(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  message TEXT NOT NULL,
+  type TEXT NOT NULL CHECK (type IN ('info', 'success', 'warning', 'error')),
+  read BOOLEAN DEFAULT FALSE,
+  action_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_group_orders_country ON public.group_orders(country);
 CREATE INDEX IF NOT EXISTS idx_group_orders_status ON public.group_orders(status);
@@ -89,6 +101,9 @@ CREATE INDEX IF NOT EXISTS idx_participants_user ON public.order_participants(us
 CREATE INDEX IF NOT EXISTS idx_participants_status ON public.order_participants(payment_status);
 CREATE INDEX IF NOT EXISTS idx_requests_country ON public.product_requests(country);
 CREATE INDEX IF NOT EXISTS idx_requests_status ON public.product_requests(status);
+CREATE INDEX IF NOT EXISTS idx_notifications_user ON public.notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_read ON public.notifications(read);
+CREATE INDEX IF NOT EXISTS idx_notifications_created ON public.notifications(created_at);
 
 -- Create RLS (Row Level Security) policies
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
@@ -96,6 +111,7 @@ ALTER TABLE public.group_orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.order_participants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.product_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.request_votes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 
 -- Users policies
 CREATE POLICY "Users can view their own profile" ON public.users
@@ -158,6 +174,19 @@ CREATE POLICY "Anyone can view votes" ON public.request_votes
 
 CREATE POLICY "Users can vote" ON public.request_votes
   FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Notifications policies
+CREATE POLICY "Users can view their own notifications" ON public.notifications
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can create their own notifications" ON public.notifications
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own notifications" ON public.notifications
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete their own notifications" ON public.notifications
+  FOR DELETE USING (auth.uid() = user_id);
 
 -- Create functions for automatic updates
 CREATE OR REPLACE FUNCTION update_updated_at_column()

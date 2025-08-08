@@ -60,9 +60,11 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 - **Payment processing** - Stripe integration with checkout and manual proof upload
 - **Payment verification** - Order managers can verify payment proofs
 - **File upload** - Secure payment proof upload to Supabase Storage
+- **Email notifications** - Automated email alerts for order updates
+- **In-app notifications** - Real-time notification center with unread counts
+- **Notification management** - Mark as read, delete, and filter notifications
 
 ### 🚧 Coming Soon
-- Email notifications and alerts
 - Push notifications for mobile
 - Advanced analytics and reporting
 - Mobile app (React Native)
@@ -70,6 +72,7 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 - Advanced search and filtering
 - PayPal integration
 - Refund processing
+- Real-time messaging between participants
 
 ## 🏗️ Architecture
 
