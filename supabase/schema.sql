@@ -227,3 +227,22 @@ $$ language 'plpgsql';
 CREATE TRIGGER update_user_order_stats 
   AFTER INSERT OR DELETE ON public.group_orders
   FOR EACH ROW EXECUTE FUNCTION update_user_stats();
+
+-- Functions to adjust me_too_count safely
+CREATE OR REPLACE FUNCTION increment_me_too_count(p_request_id UUID)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE public.product_requests
+  SET me_too_count = COALESCE(me_too_count, 0) + 1
+  WHERE id = p_request_id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION decrement_me_too_count(p_request_id UUID)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE public.product_requests
+  SET me_too_count = GREATEST(COALESCE(me_too_count, 0) - 1, 0)
+  WHERE id = p_request_id;
+END;
+$$ LANGUAGE plpgsql;

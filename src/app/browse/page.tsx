@@ -9,6 +9,7 @@ import { GroupOrder, CountryCode } from '@/types';
 import { getAllCountries, formatCurrency, getCountryFlag } from '@/lib/constants';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 // Mock data for development
 const MOCK_ORDERS: GroupOrder[] = [
@@ -111,6 +112,7 @@ const BrowsePage: React.FC = () => {
   const { userCountry, browseFilters, setBrowseFilters } = useAppStore();
   const [orders] = useState<GroupOrder[]>(MOCK_ORDERS);
   const [filteredOrders, setFilteredOrders] = useState<GroupOrder[]>(MOCK_ORDERS);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Filter orders based on current filters
   useEffect(() => {
@@ -139,6 +141,16 @@ const BrowsePage: React.FC = () => {
       filtered = filtered.filter(order => order.group_price <= browseFilters.maxPrice!);
     }
 
+    // Search filter
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(order =>
+        order.title.toLowerCase().includes(q) ||
+        (order.description || '').toLowerCase().includes(q) ||
+        (order.category || '').toLowerCase().includes(q)
+      );
+    }
+
     // Sort orders
     filtered.sort((a, b) => {
       switch (browseFilters.sortBy) {
@@ -162,7 +174,7 @@ const BrowsePage: React.FC = () => {
     });
 
     setFilteredOrders(filtered);
-  }, [orders, browseFilters]);
+  }, [orders, browseFilters, searchQuery]);
 
   const calculateSavings = (order: GroupOrder) => {
     if (!order.individual_price || !order.group_price) return 0;
@@ -197,6 +209,10 @@ const BrowsePage: React.FC = () => {
               <span className="text-sm text-gray-600">
                 {getCountryFlag(userCountry)} {userCountry}
               </span>
+              <Link href="/requests">
+                <Button variant="ghost" size="sm">Requests</Button>
+              </Link>
+              <NotificationBell />
               <Link href="/login">
                 <Button variant="outline" size="sm">
                   Sign In
@@ -226,6 +242,8 @@ const BrowsePage: React.FC = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   type="text"
                   placeholder="Search orders..."
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
