@@ -57,15 +57,19 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 - **API routes** - Product scraping endpoint for development
 - **Database integration** - Full Supabase setup with schema and services
 - **Real-time data** - Live order updates and user synchronization
+- **Payment processing** - Stripe integration with checkout and manual proof upload
+- **Payment verification** - Order managers can verify payment proofs
+- **File upload** - Secure payment proof upload to Supabase Storage
 
 ### 🚧 Coming Soon
-- Real payment processing (Stripe/PayPal integration)
 - Email notifications and alerts
 - Push notifications for mobile
 - Advanced analytics and reporting
 - Mobile app (React Native)
 - Product request wall
 - Advanced search and filtering
+- PayPal integration
+- Refund processing
 
 ## 🏗️ Architecture
 
