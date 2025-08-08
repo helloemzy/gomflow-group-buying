@@ -10,12 +10,12 @@ const GroupBuyPreview: React.FC = () => {
     if (!detectedProduct) return { individual: 0, total: 0 };
     
     const individualShipping = detectedProduct.shipping_cost;
-    const totalShipping = individualShipping * creationForm.min_participants;
-    const savingsPerPerson = individualShipping - (totalShipping / creationForm.min_participants);
+    const totalShipping = individualShipping * creationForm.min_orders;
+    const savingsPerPerson = individualShipping - (totalShipping / creationForm.min_orders);
     
     return {
       individual: Math.round(savingsPerPerson * 100) / 100,
-      total: Math.round(savingsPerPerson * creationForm.min_participants * 100) / 100
+      total: Math.round(savingsPerPerson * creationForm.min_orders * 100) / 100
     };
   };
 
@@ -83,7 +83,7 @@ const GroupBuyPreview: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     <Users className="w-4 h-4" />
-                    <span>{creationForm.min_participants} needed</span>
+                    <span>{creationForm.min_orders} needed</span>
                   </div>
                 </div>
               </div>
@@ -135,7 +135,7 @@ const GroupBuyPreview: React.FC = () => {
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Shared shipping cost</span>
                 <span className="font-semibold text-gray-900">
-                  ${detectedProduct ? (detectedProduct.shipping_cost / creationForm.min_participants).toFixed(2) : 0}
+                  ${detectedProduct ? (detectedProduct.shipping_cost / creationForm.min_orders).toFixed(2) : 0}
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-gray-200">
@@ -152,7 +152,7 @@ const GroupBuyPreview: React.FC = () => {
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-gray-600">Progress</span>
               <span className="text-sm font-semibold text-gray-900">
-                0 / {creationForm.min_participants} joined
+                0 / {creationForm.min_orders} joined
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
@@ -164,7 +164,7 @@ const GroupBuyPreview: React.FC = () => {
               />
             </div>
             <p className="text-xs text-gray-500 mt-2">
-              Need {creationForm.min_participants} more people to join
+              Need {creationForm.min_orders} more people to join
             </p>
           </div>
 

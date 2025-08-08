@@ -11,7 +11,7 @@ import {
   X
 } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
-import { ShippingRequest } from '@/types';
+import { ShippingRequest, ShippingResponse } from '@/types';
 import { getShippingRecommendation } from '@/lib/ai/shipping-agent';
 import { formatCurrency } from '@/lib/constants';
 import Button from '@/components/ui/Button';
@@ -224,7 +224,7 @@ const ShippingAIModal: React.FC = () => {
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-4">Shipping Providers</h4>
                     <div className="space-y-3">
-                      {shippingAI.response.providers.map((provider, index) => (
+                      {shippingAI.response.providers.map((provider: ShippingResponse['providers'][0], index: number) => (
                         <div key={index} className="border border-gray-200 rounded-lg p-4">
                           <div className="flex items-center justify-between mb-2">
                             <h5 className="font-medium text-gray-900">{provider.name}</h5>
@@ -259,7 +259,7 @@ const ShippingAIModal: React.FC = () => {
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-4">Bulk Shipping Discounts</h4>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        {shippingAI.response.bulkDiscounts.map((discount, index) => (
+                        {shippingAI.response.bulkDiscounts.map((discount: ShippingResponse['bulkDiscounts'][0], index: number) => (
                           <div key={index} className="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
                             <div className="text-center">
                               <p className="text-lg font-bold text-emerald-600">
