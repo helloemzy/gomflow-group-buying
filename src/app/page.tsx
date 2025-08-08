@@ -2,83 +2,39 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { 
-  Users, 
-  Truck, 
-  DollarSign, 
   ArrowRight, 
-  Star
+  Users, 
+  DollarSign, 
+  Globe, 
+  Shield, 
+  Zap,
+  Star,
+  TrendingUp,
+  CheckCircle
 } from 'lucide-react';
+import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
 
 const HomePage: React.FC = () => {
-  const features = [
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: 'Group Together',
-      description: 'Invite friends and strangers to join your bulk purchase. The more people, the more you save.'
-    },
-    {
-      icon: <Truck className="w-6 h-6" />,
-      title: 'Split Shipping',
-      description: 'Combine orders to dramatically reduce shipping costs. Save 30-70% on delivery fees.'
-    },
-    {
-      icon: <DollarSign className="w-6 h-6" />,
-      title: 'Everyone Wins',
-      description: 'Organizers get their products cheaper, joiners save money without the hassle.'
-    }
-  ];
-
-  const stats = [
-    { number: '2,847', label: 'Group Buys Created' },
-    { number: '$12,394', label: 'Total Savings' },
-    { number: '8.2', label: 'Avg. Participants' },
-    { number: '94%', label: 'Completion Rate' }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Sarah Chen',
-      role: 'Coffee Enthusiast',
-      content: 'I saved $45 on shipping for my coffee beans! The group buy was so easy to organize.',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      name: 'Mike Rodriguez',
-      role: 'Tech Geek',
-      content: 'Finally got that expensive gadget I wanted. Split shipping with 15 other people saved us all money.',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      name: 'Emma Thompson',
-      role: 'Fitness Enthusiast',
-      content: 'Organized a protein powder group buy. Everyone was happy with the savings!',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
               <h1 className="text-2xl font-bold text-emerald-600">GOMFLOW</h1>
             </div>
             <div className="flex items-center gap-4">
-              <Link href="/browse" className="text-gray-600 hover:text-gray-900 transition-colors">
-                Browse Deals
+              <Link href="/browse">
+                <Button variant="outline" size="sm">
+                  Browse Orders
+                </Button>
               </Link>
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
-              <Link href="/create">
+              <Link href="/login">
                 <Button size="sm">
-                  Create Group Buy
+                  Sign In
                 </Button>
               </Link>
             </div>
@@ -87,191 +43,334 @@ const HomePage: React.FC = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-white py-20">
+      <section className="relative bg-gradient-to-br from-emerald-50 to-green-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
+              className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
             >
-              Group Buying Made
-              <span className="text-emerald-600"> Simple</span>
+              Group Buying
+              <span className="text-emerald-600"> Made Simple</span>
             </motion.h1>
-            
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              transition={{ delay: 0.1 }}
               className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto"
             >
-              Turn your bulk purchase into a community win. Create a group buy in 30 seconds, 
-              share with one click, and save everyone money on shipping.
+              Join group orders in your country, pay with your preferred method, and save 30-70% on products you love.
             </motion.p>
-            
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ delay: 0.2 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Link href="/create">
+              <Link href="/browse">
                 <Button size="lg" className="w-full sm:w-auto">
-                  Create Group Buy
+                  Browse Orders
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                Browse Active Deals
-              </Button>
+              <Link href="/create">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Create Order
+                </Button>
+              </Link>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="bg-emerald-600 py-16">
+      {/* Stats */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-emerald-100 text-sm">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-center"
+            >
+              <div className="text-3xl font-bold text-emerald-600 mb-2">14</div>
+              <div className="text-gray-600">Countries</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="text-3xl font-bold text-emerald-600 mb-2">50%</div>
+              <div className="text-gray-600">Average Savings</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-center"
+            >
+              <div className="text-3xl font-bold text-emerald-600 mb-2">10k+</div>
+              <div className="text-gray-600">Happy Users</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-center"
+            >
+              <div className="text-3xl font-bold text-emerald-600 mb-2">500+</div>
+              <div className="text-gray-600">Active Orders</div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20">
+      {/* Features */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Why Choose GOMFLOW?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              We make group buying as simple as creating an event, with AI-powered pricing and shipping optimization.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white rounded-lg p-8 shadow-sm"
+            >
+              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-6">
+                <Globe className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Multi-Country Support</h3>
+              <p className="text-gray-600">
+                Join group orders in 14 countries with localized payment methods and currency support.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white rounded-lg p-8 shadow-sm"
+            >
+              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-6">
+                <Zap className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">AI-Powered Optimization</h3>
+              <p className="text-gray-600">
+                Our AI assistants help optimize pricing and shipping for maximum savings and efficiency.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-white rounded-lg p-8 shadow-sm"
+            >
+              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-6">
+                <Shield className="w-6 h-6 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Trust & Security</h3>
+              <p className="text-gray-600">
+                Verified managers, secure payments, and transparent tracking for peace of mind.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               How It Works
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Three simple steps to save money on your next purchase
+              Get started in minutes with our simple 3-step process
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-              >
-                <Card className="text-center h-full">
-                  <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <div className="text-emerald-600">
-                      {feature.icon}
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {feature.description}
-                  </p>
-                </Card>
-              </motion.div>
-            ))}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-white text-xl font-bold">1</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Browse Orders</h3>
+              <p className="text-gray-600">
+                Discover group orders in your country with amazing discounts on products you love.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-white text-xl font-bold">2</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Join & Pay</h3>
+              <p className="text-gray-600">
+                Join the order and pay using your preferred local payment method with proof upload.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="text-center"
+            >
+              <div className="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-white text-xl font-bold">3</span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Save & Enjoy</h3>
+              <p className="text-gray-600">
+                Track your order and enjoy your products at 30-70% below retail prices.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="bg-gray-100 py-20">
+      {/* Testimonials */}
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              What People Are Saying
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              What Our Users Say
             </h2>
-            <p className="text-xl text-gray-600">
-              Real savings from real people
-            </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-              >
-                <Card className="h-full">
-                  <div className="flex items-center gap-3 mb-4">
-                    <img 
-                      src={testimonial.avatar} 
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full"
-                    />
-                    <div>
-                      <div className="font-semibold text-gray-900">
-                        {testimonial.name}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {testimonial.role}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-4">
-                    &ldquo;{testimonial.content}&rdquo;
-                  </p>
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white rounded-lg p-8 shadow-sm"
+            >
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-6">
+                &ldquo;I saved 60% on premium coffee beans! The group order was so easy to join and the manager was super responsive.&rdquo;
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                  <span className="text-sm font-semibold text-gray-600">S</span>
+                </div>
+                <div>
+                  <div className="font-medium text-gray-900">Sarah Chen</div>
+                  <div className="text-sm text-gray-600">Hong Kong</div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white rounded-lg p-8 shadow-sm"
+            >
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-6">
+                &ldquo;As a manager, creating group orders is incredibly simple. The AI pricing assistant is a game-changer!&rdquo;
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                  <span className="text-sm font-semibold text-gray-600">M</span>
+                </div>
+                <div>
+                  <div className="font-medium text-gray-900">Mike Rodriguez</div>
+                  <div className="text-sm text-gray-600">Singapore</div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-white rounded-lg p-8 shadow-sm"
+            >
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-6">
+                &ldquo;The multi-country support is amazing. I can join orders from different countries with local payment methods.&rdquo;
+              </p>
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                  <span className="text-sm font-semibold text-gray-600">E</span>
+                </div>
+                <div>
+                  <div className="font-medium text-gray-900">Emma Thompson</div>
+                  <div className="text-sm text-gray-600">United States</div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-emerald-600 py-20">
+      {/* CTA */}
+      <section className="py-20 bg-emerald-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
+            className="text-3xl font-bold text-white mb-4"
           >
             Ready to Start Saving?
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-emerald-100 mb-8 max-w-2xl mx-auto"
+            transition={{ delay: 0.1 }}
+            className="text-xl text-emerald-100 mb-8"
           >
-            Join thousands of people who are already saving money on their purchases
+            Join thousands of users who are already saving money through group buying
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link href="/create">
-              <Button size="lg" variant="secondary">
-                Create Your First Group Buy
+            <Link href="/browse">
+              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                Browse Orders
                 <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <Link href="/create">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                Create Order
               </Button>
             </Link>
           </motion.div>
@@ -281,35 +380,35 @@ const HomePage: React.FC = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-2xl font-bold text-emerald-400 mb-4">GOMFLOW</h3>
               <p className="text-gray-400">
-                Making group buying as simple as creating an event.
+                Making group buying simple and accessible across the globe.
               </p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/create" className="hover:text-white transition-colors">Create Group Buy</Link></li>
-                <li><Link href="/browse" className="hover:text-white transition-colors">Browse Deals</Link></li>
-                <li><Link href="/how-it-works" className="hover:text-white transition-colors">How It Works</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
-                <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link></li>
+                <li><Link href="/browse" className="hover:text-white">Browse Orders</Link></li>
+                <li><Link href="/create" className="hover:text-white">Create Order</Link></li>
+                <li><Link href="/login" className="hover:text-white">Sign In</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/help" className="hover:text-white transition-colors">Help Center</Link></li>
-                <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href="/support" className="hover:text-white transition-colors">Contact Support</Link></li>
+                <li><a href="#" className="hover:text-white">Help Center</a></li>
+                <li><a href="#" className="hover:text-white">Contact Us</a></li>
+                <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Company</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white">About</a></li>
+                <li><a href="#" className="hover:text-white">Blog</a></li>
+                <li><a href="#" className="hover:text-white">Careers</a></li>
               </ul>
             </div>
           </div>
