@@ -117,7 +117,7 @@ const PrivacyPage: React.FC = () => {
               We ensure appropriate safeguards are in place to protect your data.
             </p>
 
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">9. Children's Privacy</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">9. Children&apos;s Privacy</h2>
             <p className="text-gray-700 mb-6">
               Our service is not intended for children under 13. 
               We do not knowingly collect personal information from children under 13.

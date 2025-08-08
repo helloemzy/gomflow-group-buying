@@ -20,6 +20,7 @@ const eslintConfig = [
       "@typescript-eslint/no-unused-vars": "warn",
       "react/no-unescaped-entities": "warn",
       "@next/next/no-img-element": "warn",
+      "react/jsx-no-undef": "error",
     },
   },
 ];

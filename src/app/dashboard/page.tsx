@@ -5,12 +5,9 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft, 
   User, 
-  Settings, 
   LogOut, 
   Plus,
-  Clock,
   CheckCircle,
-  AlertCircle,
   Star,
   Package,
   Users,

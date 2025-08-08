@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { detectProduct } from '@/lib/productDetection';
 
 export async function POST(request: NextRequest) {
   try {

@@ -87,7 +87,7 @@ const TermsPage: React.FC = () => {
 
             <h2 className="text-xl font-semibold text-gray-900 mb-4">7. Limitation of Liability</h2>
             <p className="text-gray-700 mb-6">
-              GOMFLOW is provided "as is" without warranties of any kind. 
+              GOMFLOW is provided &quot;as is&quot; without warranties of any kind. 
               We are not responsible for any losses, damages, or injuries resulting from the use of our service.
             </p>
 

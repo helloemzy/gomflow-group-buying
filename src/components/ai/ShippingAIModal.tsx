@@ -11,11 +11,10 @@ import {
   X
 } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
-import { ShippingRequest, ShippingResponse } from '@/types';
+import { ShippingRequest } from '@/types';
 import { getShippingRecommendation } from '@/lib/ai/shipping-agent';
-import { formatCurrency, getCountryFlag } from '@/lib/constants';
+import { formatCurrency } from '@/lib/constants';
 import Button from '@/components/ui/Button';
-import Badge from '@/components/ui/Badge';
 
 const ShippingAIModal: React.FC = () => {
   const { shippingAI, setShippingAI } = useAppStore();
@@ -49,7 +48,7 @@ const ShippingAIModal: React.FC = () => {
         response,
         error: null 
       });
-    } catch (error) {
+    } catch {
       setShippingAI({ 
         isLoading: false, 
         error: 'Failed to get shipping recommendations' 
