@@ -1,15 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   ArrowLeft, 
-  Users, 
   Clock, 
-  DollarSign, 
   Star, 
   Share2, 
-  Upload, 
   CheckCircle,
   AlertCircle,
   Phone,
@@ -17,8 +14,8 @@ import {
 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
-import { GroupOrder, OrderParticipant } from '@/types';
-import { formatCurrency, getCountryFlag, getCountryConfig } from '@/lib/constants';
+import { GroupOrder } from '@/types';
+import { formatCurrency, getCountryFlag } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 
@@ -111,15 +108,12 @@ const OrderPage: React.FC = () => {
   const router = useRouter();
   const { user } = useAppStore();
   
-  const [order, setOrder] = useState<GroupOrder>(MOCK_ORDER);
+  const [order] = useState<GroupOrder>(MOCK_ORDER);
   const [isJoining, setIsJoining] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-
-  const country = params.country as string;
-  const slug = params.slug as string;
 
   const calculateSavings = () => {
     if (!order.individual_price || !order.group_price) return 0;

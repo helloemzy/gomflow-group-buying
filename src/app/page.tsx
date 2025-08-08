@@ -4,14 +4,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   ArrowRight, 
-  Users, 
-  DollarSign, 
   Globe, 
   Shield, 
   Zap,
-  Star,
-  TrendingUp,
-  CheckCircle
+  Star
 } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, DollarSign, TrendingUp, TrendingDown, Target } from 'lucide-react';
+import { X, Sparkles, TrendingUp, TrendingDown, Target } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
 import Button from '@/components/ui/Button';
 
@@ -90,7 +90,7 @@ const PricingAIModal: React.FC = () => {
                     <div className="text-lg font-semibold text-blue-600">
                       ${pricingAI.response.pricePoints?.conservative?.toFixed(2)}
                     </div>
-                    <p className="text-xs text-blue-700">10% margin</p>
+                    <div className="text-xs text-blue-700">10% margin</div>
                   </div>
 
                   <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
@@ -101,7 +101,7 @@ const PricingAIModal: React.FC = () => {
                     <div className="text-lg font-semibold text-emerald-600">
                       ${pricingAI.response.pricePoints?.balanced?.toFixed(2)}
                     </div>
-                    <p className="text-xs text-emerald-700">15% margin</p>
+                    <div className="text-xs text-emerald-700">15% margin</div>
                   </div>
 
                   <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
@@ -112,7 +112,7 @@ const PricingAIModal: React.FC = () => {
                     <div className="text-lg font-semibold text-orange-600">
                       ${pricingAI.response.pricePoints?.aggressive?.toFixed(2)}
                     </div>
-                    <p className="text-xs text-orange-700">20% margin</p>
+                    <div className="text-xs text-orange-700">20% margin</div>
                   </div>
                 </div>
 

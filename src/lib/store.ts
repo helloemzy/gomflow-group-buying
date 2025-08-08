@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Product, GroupOrder, User, CountryCode, CreateOrderData, PricingRequest, ShippingRequest } from '@/types';
-import { DEFAULT_VALUES, getCountryConfig } from '@/lib/constants';
+import { DEFAULT_VALUES } from '@/lib/constants';
 
 interface AppState {
   // User state

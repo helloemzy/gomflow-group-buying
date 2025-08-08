@@ -12,10 +12,7 @@ const CreationForm: React.FC = () => {
   const { 
     creationForm, 
     setCreationForm, 
-    userCountry,
-    pricingAI,
     setPricingAI,
-    shippingAI,
     setShippingAI
   } = useAppStore();
 
@@ -126,7 +123,7 @@ const CreationForm: React.FC = () => {
             <select
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-emerald-500 focus:ring-4 focus:ring-emerald-50 transition-all duration-200"
               value={creationForm.category || ''}
-              onChange={(e) => handleInputChange('category', e.target.value || undefined)}
+              onChange={(e) => handleInputChange('category', e.target.value || '')}
             >
               <option value="">Select a category</option>
               {PRODUCT_CATEGORIES.map((category) => (

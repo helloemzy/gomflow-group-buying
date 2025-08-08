@@ -7,12 +7,10 @@ export async function getPricingRecommendation(request: PricingRequest): Promise
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 2000));
   
-  const { productCost, shippingCost, country, minOrders, category } = request;
-  const countryConfig = getCountryConfig(country);
+  const { productCost, shippingCost, country, minOrders } = request;
   
   // Calculate base costs
   const totalCostPerUnit = productCost + shippingCost;
-  const totalCost = totalCostPerUnit * minOrders;
   
   // Calculate pricing tiers
   const conservativeMargin = 0.10; // 10% margin
@@ -29,7 +27,7 @@ export async function getPricingRecommendation(request: PricingRequest): Promise
   const profitMargin = balancedMargin;
   
   // Generate reasoning based on country and category
-  const reasoning = generateReasoning(country, category, productCost, shippingCost, minOrders);
+  const reasoning = generateReasoning(country, minOrders, productCost, shippingCost);
   
   return {
     recommendedPrice,
@@ -46,10 +44,9 @@ export async function getPricingRecommendation(request: PricingRequest): Promise
 
 function generateReasoning(
   country: CountryCode, 
-  category: string | undefined, 
+  minOrders: number, 
   productCost: number, 
-  shippingCost: number, 
-  minOrders: number
+  shippingCost: number
 ): string {
   const countryConfig = getCountryConfig(country);
   const currency = countryConfig.currency;
@@ -57,7 +54,7 @@ function generateReasoning(
   let reasoning = `Based on your ${countryConfig.name} market analysis:\n\n`;
   
   // Market-specific insights
-  const marketInsights = getMarketInsights(country, category);
+  const marketInsights = getMarketInsights(country);
   reasoning += marketInsights;
   
   // Cost breakdown
@@ -82,7 +79,7 @@ function generateReasoning(
   return reasoning;
 }
 
-function getMarketInsights(country: CountryCode, category?: string): string {
+function getMarketInsights(country: CountryCode): string {
   const insights: Record<CountryCode, string> = {
     ID: "🇮🇩 Indonesia: High demand for electronics and fashion. Competitive pricing is key.",
     MY: "🇲🇾 Malaysia: Strong e-commerce adoption. Focus on convenience and trust.",

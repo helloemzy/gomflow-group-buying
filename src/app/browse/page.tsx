@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, Globe, Users, Clock, DollarSign, Star } from 'lucide-react';
+import { Search, Globe, Clock, Star } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
 import { GroupOrder, CountryCode } from '@/types';
 import { getAllCountries, formatCurrency, getCountryFlag } from '@/lib/constants';
@@ -108,9 +108,8 @@ const MOCK_ORDERS: GroupOrder[] = [
 
 const BrowsePage: React.FC = () => {
   const { userCountry, browseFilters, setBrowseFilters } = useAppStore();
-  const [orders, setOrders] = useState<GroupOrder[]>(MOCK_ORDERS);
+  const [orders] = useState<GroupOrder[]>(MOCK_ORDERS);
   const [filteredOrders, setFilteredOrders] = useState<GroupOrder[]>(MOCK_ORDERS);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Filter orders based on current filters
   useEffect(() => {
@@ -270,12 +269,7 @@ const BrowsePage: React.FC = () => {
 
       {/* Orders Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {isLoading ? (
-          <div className="text-center py-12">
-            <div className="w-8 h-8 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading orders...</p>
-          </div>
-        ) : filteredOrders.length === 0 ? (
+        {filteredOrders.length === 0 ? (
           <div className="text-center py-12">
             <Globe className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No orders found</h3>

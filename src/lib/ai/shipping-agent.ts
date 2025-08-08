@@ -8,7 +8,6 @@ export async function getShippingRecommendation(request: ShippingRequest): Promi
   await new Promise(resolve => setTimeout(resolve, 2000));
   
   const { orders, country, weight } = request;
-  const countryConfig = getCountryConfig(country);
   
   // Calculate total items
   const totalItems = orders.reduce((sum, order) => sum + order.items, 0);
