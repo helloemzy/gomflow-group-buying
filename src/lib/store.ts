@@ -1,11 +1,17 @@
 import { create } from 'zustand';
 import { Product, GroupOrder, User, CountryCode, CreateOrderData, PricingRequest, ShippingRequest } from '@/types';
 import { DEFAULT_VALUES } from '@/lib/constants';
+import { authService } from '@/lib/services/auth';
+import { orderService } from '@/lib/services/orders';
 
 interface AppState {
   // User state
   user: User | null;
   setUser: (user: User | null) => void;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, userData: Partial<User>) => Promise<void>;
+  signOut: () => Promise<void>;
+  refreshUser: () => Promise<void>;
   
   // User's detected country
   userCountry: CountryCode;
@@ -88,6 +94,51 @@ export const useAppStore = create<AppState>((set, get) => ({
   // User state
   user: null,
   setUser: (user) => set({ user }),
+  signIn: async (email, password) => {
+    try {
+      const { user } = await authService.signIn(email, password);
+      if (user) {
+        const profile = await authService.getUserProfile(user.id);
+        set({ user: profile });
+      }
+    } catch (error) {
+      console.error('Sign in error:', error);
+      throw error;
+    }
+  },
+  signUp: async (email, password, userData) => {
+    try {
+      const { user } = await authService.signUp(email, password, userData);
+      if (user) {
+        const profile = await authService.getUserProfile(user.id);
+        set({ user: profile });
+      }
+    } catch (error) {
+      console.error('Sign up error:', error);
+      throw error;
+    }
+  },
+  signOut: async () => {
+    try {
+      await authService.signOut();
+      set({ user: null });
+    } catch (error) {
+      console.error('Sign out error:', error);
+      throw error;
+    }
+  },
+  refreshUser: async () => {
+    try {
+      const user = await authService.getCurrentUser();
+      if (user) {
+        const profile = await authService.getUserProfile(user.id);
+        set({ user: profile });
+      }
+    } catch (error) {
+      console.error('Refresh user error:', error);
+      set({ user: null });
+    }
+  },
   
   // User's detected country
   userCountry: 'US',

@@ -13,7 +13,7 @@ import Input from '@/components/ui/Input';
 
 const SignupPage: React.FC = () => {
   const router = useRouter();
-  const { setUser, setUserCountry } = useAppStore();
+  const { signUp, setUserCountry } = useAppStore();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -46,24 +46,20 @@ const SignupPage: React.FC = () => {
       return;
     }
 
-    // Simulate signup
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Mock user data
-    setUser({
-      id: 'user' + Date.now(),
-      email: formData.email,
-      name: formData.name,
-      country: formData.country,
-      accountType: 'buyer',
-      rating: 0,
-      totalOrders: 0,
-      created_at: new Date().toISOString()
-    });
-    
-    setUserCountry(formData.country);
-    router.push('/browse');
-    setIsLoading(false);
+    try {
+      await signUp(formData.email, formData.password, {
+        name: formData.name,
+        country: formData.country,
+        accountType: 'buyer'
+      });
+      
+      setUserCountry(formData.country);
+      router.push('/browse');
+    } catch (error: any) {
+      setError(error.message || 'Failed to create account');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {

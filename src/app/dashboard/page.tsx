@@ -84,15 +84,19 @@ const MOCK_PARTICIPATIONS: OrderParticipant[] = [
 
 const DashboardPage: React.FC = () => {
   const router = useRouter();
-  const { user, setUser } = useAppStore();
+  const { user, signOut } = useAppStore();
   
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'participations' | 'settings'>('overview');
   const [userOrders] = useState<GroupOrder[]>(MOCK_USER_ORDERS);
   const [participations] = useState<OrderParticipant[]>(MOCK_PARTICIPATIONS);
 
-  const handleLogout = () => {
-    setUser(null);
-    router.push('/');
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      router.push('/');
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
   };
 
   if (!user) {

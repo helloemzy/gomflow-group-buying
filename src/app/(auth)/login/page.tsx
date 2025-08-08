@@ -11,7 +11,7 @@ import Input from '@/components/ui/Input';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
-  const { setUser } = useAppStore();
+  const { signIn } = useAppStore();
   
   const [formData, setFormData] = useState({
     email: '',
@@ -26,27 +26,14 @@ const LoginPage: React.FC = () => {
     setIsLoading(true);
     setError('');
 
-    // Simulate login
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    if (formData.email === 'demo@example.com' && formData.password === 'password') {
-      // Mock user data
-      setUser({
-        id: 'user1',
-        email: formData.email,
-        name: 'Demo User',
-        country: 'US',
-        accountType: 'buyer',
-        rating: 4.5,
-        totalOrders: 3,
-        created_at: '2024-01-01T00:00:00Z'
-      });
+    try {
+      await signIn(formData.email, formData.password);
       router.push('/browse');
-    } else {
-      setError('Invalid email or password');
+    } catch (error: any) {
+      setError(error.message || 'Failed to sign in');
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   const handleInputChange = (field: string, value: string) => {
