@@ -98,11 +98,21 @@ export const orderService = {
 
     if (participantError) throw participantError
 
-    // Update order count
+    // Update order count (read-modify-write since supabase-js doesn't expose raw SQL here)
+    const { data: orderRow, error: fetchError } = await supabase
+      .from('group_orders')
+      .select('current_orders')
+      .eq('id', orderId)
+      .single()
+
+    if (fetchError) throw fetchError
+
+    const nextCount = (orderRow?.current_orders ?? 0) + 1
+
     const { error: updateError } = await supabase
       .from('group_orders')
       .update({ 
-        current_orders: supabase.sql`current_orders + 1`,
+        current_orders: nextCount,
         updated_at: new Date().toISOString()
       })
       .eq('id', orderId)
