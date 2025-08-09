@@ -11,7 +11,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
-import { formatCurrency } from '@/lib/constants';
+// import { formatCurrency } from '@/lib/constants';
 import { getTimeAgo } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
@@ -136,7 +136,7 @@ const PaymentVerification: React.FC<PaymentVerificationProps> = ({
                 <div>
                   <span className="text-gray-500">Amount:</span>
                   <span className="ml-1 font-medium">
-                    {formatCurrency(participant.payment_amount, 'USD')}
+                    {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(participant.payment_amount)}
                   </span>
                 </div>
                 <div>
