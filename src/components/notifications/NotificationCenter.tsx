@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Bell, 
-  X, 
-  CheckCircle, 
-  AlertCircle, 
-  Info, 
-  Warning,
+import {
+  Bell,
+  X,
+  CheckCircle,
+  AlertCircle,
+  Info,
+  TriangleAlert,
   Trash2,
   Check
 } from 'lucide-react';
@@ -99,7 +99,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
       case 'success':
         return <CheckCircle className="w-5 h-5 text-green-600" />;
       case 'warning':
-        return <Warning className="w-5 h-5 text-amber-600" />;
+        return <TriangleAlert className="w-5 h-5 text-amber-600" />;
       case 'error':
         return <AlertCircle className="w-5 h-5 text-red-600" />;
       default:

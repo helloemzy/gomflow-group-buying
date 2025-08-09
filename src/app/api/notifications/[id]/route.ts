@@ -3,8 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import { notificationService } from '@/lib/services/notifications';
 
 export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
   try {
     const supabase = createClient();
@@ -21,7 +21,7 @@ export async function PATCH(
     const { action } = await request.json();
 
     if (action === 'mark-read') {
-      const notification = await notificationService.markAsRead(params.id);
+      const notification = await notificationService.markAsRead(context.params.id);
       return NextResponse.json({
         success: true,
         notification,
@@ -42,8 +42,8 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
   try {
     const supabase = createClient();
@@ -57,7 +57,7 @@ export async function DELETE(
       );
     }
 
-    await notificationService.deleteNotification(params.id);
+    await notificationService.deleteNotification(context.params.id);
 
     return NextResponse.json({
       success: true,
