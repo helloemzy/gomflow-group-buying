@@ -12,6 +12,9 @@ import Input from '@/components/ui/Input';
 const LoginPage: React.FC = () => {
   const router = useRouter();
   const { signIn } = useAppStore();
+  const [otpEmail, setOtpEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState('');
   
   const [formData, setFormData] = useState({
     email: '',
@@ -33,6 +36,52 @@ const LoginPage: React.FC = () => {
       setError(error.message || 'Failed to sign in');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogle = async () => {
+    try {
+      // Use direct Supabase client for redirect
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/browse` } });
+      if (error) throw error;
+    } catch (error: any) {
+      setError(error.message || 'Google sign-in failed');
+    }
+  };
+
+  const handleEmailOtp = async () => {
+    try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOtp({ email: otpEmail, options: { emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/browse` } });
+      if (error) throw error;
+    } catch (error: any) {
+      setError(error.message || 'Email OTP failed');
+    }
+  };
+
+  const handlePhoneOtp = async () => {
+    try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOtp({ phone });
+      if (error) throw error;
+    } catch (error: any) {
+      setError(error.message || 'Phone OTP failed');
+    }
+  };
+
+  const handleVerifyPhoneOtp = async () => {
+    try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      const { error } = await supabase.auth.verifyOtp({ phone, token: otp, type: 'sms' });
+      if (error) throw error;
+      router.push('/browse');
+    } catch (error: any) {
+      setError(error.message || 'OTP verification failed');
     }
   };
 
@@ -124,7 +173,52 @@ const LoginPage: React.FC = () => {
               Sign in
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-          </form>
+        </form>
+
+        {/* Divider */}
+        <div className="my-6 flex items-center gap-4">
+          <div className="h-px bg-gray-200 flex-1" />
+          <span className="text-xs text-gray-500">or continue with</span>
+          <div className="h-px bg-gray-200 flex-1" />
+        </div>
+
+        {/* OAuth + OTP */}
+        <div className="space-y-4">
+          <Button variant="outline" className="w-full" onClick={handleGoogle}>Sign in with Google</Button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <input
+                type="email"
+                value={otpEmail}
+                onChange={(e) => setOtpEmail(e.target.value)}
+                placeholder="Email for magic link"
+                className="w-full px-3 py-2 border rounded"
+              />
+              <Button variant="ghost" className="mt-2" onClick={handleEmailOtp}>Send magic link</Button>
+            </div>
+            <div>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Phone number"
+                className="w-full px-3 py-2 border rounded"
+              />
+              <div className="flex items-center gap-2 mt-2">
+                <Button variant="ghost" onClick={handlePhoneOtp}>Send code</Button>
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Enter code"
+                  className="flex-1 px-3 py-2 border rounded"
+                />
+                <Button onClick={handleVerifyPhoneOtp}>Verify</Button>
+              </div>
+            </div>
+          </div>
+        </div>
 
           <div className="mt-6">
             <div className="relative">

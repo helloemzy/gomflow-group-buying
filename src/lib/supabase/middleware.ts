@@ -34,6 +34,18 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // If referrer cookie exists and user just signed in, attach referred_by
+  try {
+    const referrerCookie = request.cookies.get('referrer_id')?.value
+    if (user && referrerCookie) {
+      await supabase.from('users').update({ referred_by: referrerCookie }).eq('id', user.id)
+      // clear cookie on response
+      supabaseResponse.cookies.set('referrer_id', '', { path: '/', maxAge: 0 })
+      // increment referral_count for referrer
+      await supabase.rpc('increment_referral_count', { p_user_id: referrerCookie })
+    }
+  } catch {}
+
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&

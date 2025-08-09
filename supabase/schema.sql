@@ -12,6 +12,11 @@ CREATE TABLE IF NOT EXISTS public.users (
   phone TEXT,
   rating DECIMAL(3,2) DEFAULT 0.00,
   total_orders INTEGER DEFAULT 0,
+  referral_code TEXT UNIQUE,
+  referred_by UUID REFERENCES public.users(id),
+  referral_count INTEGER DEFAULT 0,
+  total_gmv_managed NUMERIC(12,2) DEFAULT 0,
+  total_earnings NUMERIC(12,2) DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -244,5 +249,70 @@ BEGIN
   UPDATE public.product_requests
   SET me_too_count = GREATEST(COALESCE(me_too_count, 0) - 1, 0)
   WHERE id = p_request_id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Generate referral codes
+CREATE OR REPLACE FUNCTION generate_referral_code()
+RETURNS TEXT AS $$
+DECLARE
+  code TEXT;
+BEGIN
+  LOOP
+    code := substr(replace(encode(gen_random_bytes(6), 'hex'), '-', ''), 1, 8);
+    EXIT WHEN NOT EXISTS (SELECT 1 FROM public.users WHERE referral_code = code);
+  END LOOP;
+  RETURN code;
+END;
+$$ LANGUAGE plpgsql;
+
+-- On auth.users insert, create public.users profile
+CREATE OR REPLACE FUNCTION handle_new_auth_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (id, email, name, avatar_url, phone, referral_code)
+  VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'name', NEW.raw_user_meta_data->>'avatar_url', NEW.phone, generate_referral_code())
+  ON CONFLICT (id) DO NOTHING;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION handle_new_auth_user();
+
+-- Update manager GMV when participant payment is verified
+CREATE OR REPLACE FUNCTION accrue_manager_gmv()
+RETURNS TRIGGER AS $$
+DECLARE
+  manager UUID;
+BEGIN
+  IF (TG_OP = 'UPDATE') THEN
+    IF (NEW.payment_status = 'verified' AND (OLD.payment_status IS DISTINCT FROM 'verified')) THEN
+      SELECT manager_id INTO manager FROM public.group_orders WHERE id = NEW.order_id;
+      IF manager IS NOT NULL THEN
+        UPDATE public.users
+        SET total_gmv_managed = COALESCE(total_gmv_managed, 0) + COALESCE(NEW.payment_amount, 0)
+        WHERE id = manager;
+      END IF;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS on_participant_payment_verified ON public.order_participants;
+CREATE TRIGGER on_participant_payment_verified
+  AFTER UPDATE ON public.order_participants
+  FOR EACH ROW EXECUTE FUNCTION accrue_manager_gmv();
+
+-- Referral count increment RPC
+CREATE OR REPLACE FUNCTION increment_referral_count(p_user_id UUID)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE public.users
+  SET referral_count = COALESCE(referral_count, 0) + 1
+  WHERE id = p_user_id;
 END;
 $$ LANGUAGE plpgsql;
