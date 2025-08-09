@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { createClient } from '@/lib/supabase/client';
+import { createClient as createServerClient } from '@/lib/supabase/server';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-06-20',
@@ -86,7 +86,8 @@ export const paymentService = {
 
   async uploadPaymentProof(file: File, orderId: string, userId: string) {
     try {
-      const supabase = createClient();
+      // Use server client inside API route for secure upload
+      const supabase = createServerClient();
       
       // Upload file to Supabase Storage
       const fileName = `payment-proofs/${orderId}/${userId}/${Date.now()}-${file.name}`;
