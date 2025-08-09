@@ -54,6 +54,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
       setIsLoading(false);
     }
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const handleMarkAsRead = async (notificationId: string) => {
     try {

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircle, ArrowRight, Home, Package } from 'lucide-react';
 import Link from 'next/link';
-import { useAppStore } from '@/lib/store';
+// import { useAppStore } from '@/lib/store';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 

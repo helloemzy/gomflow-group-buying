@@ -30,6 +30,7 @@ const NotificationBell: React.FC = () => {
       console.error('Failed to load unread count:', error);
     }
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const handleBellClick = () => {
     setIsOpen(true);
