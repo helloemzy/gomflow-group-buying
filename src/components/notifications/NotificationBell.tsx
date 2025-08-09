@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Bell } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
@@ -13,14 +13,7 @@ const NotificationBell: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
-  useEffect(() => {
-    if (!user) return;
-    loadUnreadCount();
-    const interval = setInterval(loadUnreadCount, 30000);
-    return () => clearInterval(interval);
-  }, [user, loadUnreadCount]);
-
-  const loadUnreadCount = async () => {
+  const loadUnreadCount = useCallback(async () => {
     if (!user) return;
     
     try {
@@ -29,8 +22,14 @@ const NotificationBell: React.FC = () => {
     } catch (error) {
       console.error('Failed to load unread count:', error);
     }
-  };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    loadUnreadCount();
+    const interval = setInterval(loadUnreadCount, 30000);
+    return () => clearInterval(interval);
+  }, [user, loadUnreadCount]);
 
   const handleBellClick = () => {
     setIsOpen(true);

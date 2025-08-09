@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bell,
@@ -37,7 +37,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
     loadNotifications();
   }, [isOpen, user, loadNotifications]);
 
-  const loadNotifications = async () => {
+  const loadNotifications = useCallback(async () => {
     if (!user) return;
     
     setIsLoading(true);
@@ -53,8 +53,7 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
     } finally {
       setIsLoading(false);
     }
-  };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const handleMarkAsRead = async (notificationId: string) => {
     try {
