@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { loadStripe } from '@stripe/stripe-js';
 import { 
@@ -15,7 +15,7 @@ import { useAppStore } from '@/lib/store';
 import { formatCurrency } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
+// Badge not used here
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -42,6 +42,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const [error, setError] = useState('');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  const formatAmount = (amt: number) =>
+    new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amt);
 
   const handleStripePayment = async () => {
     if (!user) {
@@ -165,9 +168,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
         <div className="mb-6">
           <div className="text-center mb-4">
-            <div className="text-3xl font-bold text-emerald-600">
-              {formatCurrency(amount, currency)}
-            </div>
+            <div className="text-3xl font-bold text-emerald-600">{formatAmount(amount)}</div>
             <p className="text-sm text-gray-500">{title}</p>
           </div>
         </div>
@@ -233,7 +234,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
               className="w-full"
               size="lg"
             >
-              {isLoading ? 'Processing...' : `Pay ${formatCurrency(amount, currency)}`}
+              {isLoading ? 'Processing...' : `Pay ${formatAmount(amount)}`}
             </Button>
           </div>
         )}
