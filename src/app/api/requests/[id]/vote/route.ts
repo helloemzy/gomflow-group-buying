@@ -10,11 +10,14 @@ export async function POST(
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
 
-    // Insert vote (ignore on conflict)
-    await supabase.from('request_votes').insert({ request_id: params.id, user_id: user.id }).catch(() => {});
+    // Insert vote (ignore errors like duplicates)
+    const { error: voteError } = await supabase
+      .from('request_votes')
+      .insert({ request_id: params.id, user_id: user.id });
+    // ignore voteError to keep idempotent behavior
 
-    // Increment count
-    await supabase.rpc('increment_me_too_count', { p_request_id: params.id }).catch(() => {});
+    // Increment count (best-effort)
+    await supabase.rpc('increment_me_too_count', { p_request_id: params.id });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
