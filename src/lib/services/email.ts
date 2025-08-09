@@ -104,7 +104,7 @@ const emailTemplates = {
     `,
   }),
 
-  orderDeadline: (order: GroupOrder, participants: User[]) => ({
+  orderDeadline: (order: GroupOrder, _participants: User[]) => ({
     subject: `Order Deadline Approaching: ${order.title}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -134,7 +134,7 @@ const emailTemplates = {
     `,
   }),
 
-  orderCompleted: (order: GroupOrder, participants: User[]) => ({
+  orderCompleted: (order: GroupOrder, _participants: User[]) => ({
     subject: `Order Completed: ${order.title}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

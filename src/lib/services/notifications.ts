@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/client';
-import { User } from '@/types';
+// import { User } from '@/types';
 
 export interface Notification {
   id: string;

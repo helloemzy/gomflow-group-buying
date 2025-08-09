@@ -33,10 +33,9 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpen && user) {
-      loadNotifications();
-    }
-  }, [isOpen, user]);
+    if (!isOpen || !user) return;
+    loadNotifications();
+  }, [isOpen, user, loadNotifications]);
 
   const loadNotifications = async () => {
     if (!user) return;

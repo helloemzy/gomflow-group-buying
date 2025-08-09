@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { notificationService } from '@/lib/services/notifications';
 
 export async function PATCH(
   request: Request,
-  context: { params: { id: string } }
+  { params }: any
 ) {
   try {
     const supabase = createClient();
@@ -21,7 +21,7 @@ export async function PATCH(
     const { action } = await request.json();
 
     if (action === 'mark-read') {
-      const notification = await notificationService.markAsRead(context.params.id);
+      const notification = await notificationService.markAsRead(params.id);
       return NextResponse.json({
         success: true,
         notification,
@@ -43,7 +43,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  context: { params: { id: string } }
+  { params }: any
 ) {
   try {
     const supabase = createClient();
@@ -57,7 +57,7 @@ export async function DELETE(
       );
     }
 
-    await notificationService.deleteNotification(context.params.id);
+    await notificationService.deleteNotification(params.id);
 
     return NextResponse.json({
       success: true,

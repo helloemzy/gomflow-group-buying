@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
-import { GroupOrder, CreateOrderData, OrderParticipant } from '@/types'
+import { CreateOrderData } from '@/types'
 
 export const orderService = {
   async createOrder(orderData: CreateOrderData, userId: string) {

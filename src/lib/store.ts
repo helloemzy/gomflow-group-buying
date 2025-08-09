@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { Product, GroupOrder, User, CountryCode, CreateOrderData, PricingRequest, ShippingRequest } from '@/types';
 import { DEFAULT_VALUES } from '@/lib/constants';
 import { authService } from '@/lib/services/auth';
-import { orderService } from '@/lib/services/orders';
 
 interface AppState {
   // User state

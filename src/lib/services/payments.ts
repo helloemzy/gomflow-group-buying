@@ -91,7 +91,7 @@ export const paymentService = {
       
       // Upload file to Supabase Storage
       const fileName = `payment-proofs/${orderId}/${userId}/${Date.now()}-${file.name}`;
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from('payment-proofs')
         .upload(fileName, file);
 

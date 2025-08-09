@@ -13,7 +13,7 @@ const PaymentSuccessPage: React.FC = () => {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user } = useAppStore();
+  // const { user } = useAppStore();
   const [isLoading, setIsLoading] = useState(true);
   const [orderDetails, setOrderDetails] = useState<any>(null);
 

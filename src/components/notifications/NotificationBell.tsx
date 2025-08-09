@@ -14,13 +14,11 @@ const NotificationBell: React.FC = () => {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    if (user) {
-      loadUnreadCount();
-      // Poll for new notifications every 30 seconds
-      const interval = setInterval(loadUnreadCount, 30000);
-      return () => clearInterval(interval);
-    }
-  }, [user]);
+    if (!user) return;
+    loadUnreadCount();
+    const interval = setInterval(loadUnreadCount, 30000);
+    return () => clearInterval(interval);
+  }, [user, loadUnreadCount]);
 
   const loadUnreadCount = async () => {
     if (!user) return;

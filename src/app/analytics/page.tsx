@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import { BarChart3, Users, Package, DollarSign, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
