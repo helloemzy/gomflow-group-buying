@@ -5,7 +5,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const createClient = () => {
-  const cookieStore = cookies()
+  // Cast to any to avoid Next.js 15 type variance where cookies() can be Promise-typed in some contexts
+  const cookieStore: any = cookies() as any
 
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
