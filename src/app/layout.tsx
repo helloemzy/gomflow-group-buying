@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import SessionSync from '@/components/auth/SessionSync';
 
 export const metadata: Metadata = {
   title: 'GOMFLOW - Group Buying Made Simple',
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
+        <SessionSync />
         {children}
       </body>
     </html>

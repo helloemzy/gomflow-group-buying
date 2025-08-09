@@ -282,6 +282,26 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_auth_user();
 
+-- Ensure email uniqueness and profile merge behavior
+CREATE OR REPLACE FUNCTION upsert_user_profile()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (id, email, name, avatar_url, phone, referral_code)
+  VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'name', NEW.raw_user_meta_data->>'avatar_url', NEW.phone, generate_referral_code())
+  ON CONFLICT (email) DO UPDATE SET
+    id = EXCLUDED.id,
+    name = COALESCE(EXCLUDED.name, public.users.name),
+    avatar_url = COALESCE(EXCLUDED.avatar_url, public.users.avatar_url),
+    updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS on_auth_user_upsert ON auth.users;
+CREATE TRIGGER on_auth_user_upsert
+  AFTER INSERT OR UPDATE ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION upsert_user_profile();
+
 -- Update manager GMV when participant payment is verified
 CREATE OR REPLACE FUNCTION accrue_manager_gmv()
 RETURNS TRIGGER AS $$

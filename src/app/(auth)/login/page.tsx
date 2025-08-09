@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
       // Use direct Supabase client for redirect
       const { createClient } = await import('@/lib/supabase/client');
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/browse` } });
+      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}` } });
       if (error) throw error;
     } catch (error: any) {
       setError(error.message || 'Google sign-in failed');
