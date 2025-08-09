@@ -188,7 +188,7 @@ const PaymentVerification: React.FC<PaymentVerificationProps> = ({
                     onClick={() => handleVerification(participant.id, 'verified')}
                     disabled={verifying === participant.id}
                     size="sm"
-                    variant="success"
+                    variant="primary"
                   >
                     {verifying === participant.id ? 'Verifying...' : 'Approve'}
                   </Button>
@@ -196,7 +196,7 @@ const PaymentVerification: React.FC<PaymentVerificationProps> = ({
                     onClick={() => handleVerification(participant.id, 'rejected')}
                     disabled={verifying === participant.id}
                     size="sm"
-                    variant="error"
+                    variant="outline"
                   >
                     {verifying === participant.id ? 'Rejecting...' : 'Reject'}
                   </Button>
