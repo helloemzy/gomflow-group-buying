@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     // Update payment proof if provided
     if (paymentProofUrl) {
-      await orderService.updatePaymentStatus(participant.id, 'uploaded', user.id);
+      await orderService.updatePaymentStatus(participant.id, 'uploaded', user.id, paymentProofUrl);
     }
 
     return NextResponse.json({

@@ -147,6 +147,38 @@ export const orderService = {
     return data
   },
 
+  async updatePaymentStatus(
+    participantId: string,
+    status: 'pending' | 'uploaded' | 'verified' | 'rejected',
+    actorUserId?: string,
+    paymentProofUrl?: string
+  ) {
+    const supabase = createClient()
+
+    const updatePayload: Record<string, any> = {
+      payment_status: status,
+    }
+
+    if (paymentProofUrl) {
+      updatePayload.payment_proof_url = paymentProofUrl
+    }
+
+    if (status === 'verified') {
+      updatePayload.verified_at = new Date().toISOString()
+      updatePayload.verified_by = actorUserId
+    }
+
+    const { data, error } = await supabase
+      .from('order_participants')
+      .update(updatePayload)
+      .eq('id', participantId)
+      .select()
+      .single()
+
+    if (error) throw error
+    return data
+  },
+
   async getUserOrders(userId: string) {
     const supabase = createClient()
     
