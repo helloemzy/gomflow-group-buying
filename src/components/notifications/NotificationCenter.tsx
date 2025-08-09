@@ -32,11 +32,6 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!isOpen || !user) return;
-    loadNotifications();
-  }, [isOpen, user, loadNotifications]);
-
   const loadNotifications = useCallback(async () => {
     if (!user) return;
     
@@ -54,6 +49,11 @@ const NotificationCenter: React.FC<NotificationCenterProps> = ({
       setIsLoading(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!isOpen || !user) return;
+    loadNotifications();
+  }, [isOpen, user, loadNotifications]);
 
   const handleMarkAsRead = async (notificationId: string) => {
     try {
