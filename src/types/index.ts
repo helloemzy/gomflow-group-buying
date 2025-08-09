@@ -22,6 +22,12 @@ export interface User {
   rating: number;
   totalOrders: number;
   created_at: string;
+  // Extended metrics (optional depending on DB)
+  referralCode?: string;
+  referredBy?: string;
+  referralCount?: number;
+  totalGmvManaged?: number;
+  totalEarnings?: number;
 }
 
 // Product and order types

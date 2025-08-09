@@ -195,6 +195,20 @@ const DashboardPage: React.FC = () => {
                       {user.accountType === 'manager' ? 'Manager' : 'Buyer'}
                     </Badge>
                   </div>
+                  {user.accountType !== 'manager' && (
+                    <div>
+                      <Button size="sm" className="w-full mt-2" onClick={async () => {
+                        try {
+                          const { authService } = await import('@/lib/services/auth');
+                          // @ts-ignore
+                          await authService.upgradeToManager(user.id);
+                          window.location.reload();
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}>Become a manager</Button>
+                    </div>
+                  )}
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600">Member Since</span>
                     <span className="text-sm text-gray-600">

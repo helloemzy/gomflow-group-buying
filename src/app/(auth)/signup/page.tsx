@@ -62,6 +62,17 @@ const SignupPage: React.FC = () => {
     }
   };
 
+  const handleGoogle = async () => {
+    try {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/browse` } });
+      if (error) throw error;
+    } catch (error: any) {
+      setError(error.message || 'Google sign-in failed');
+    }
+  };
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -220,7 +231,7 @@ const SignupPage: React.FC = () => {
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" onClick={handleGoogle}>
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
