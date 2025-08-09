@@ -1,13 +1,22 @@
 import Stripe from 'stripe';
 import { createClient as createServerClient } from '@/lib/supabase/server';
 
-// Initialize Stripe without forcing apiVersion to avoid type mismatches with the installed SDK
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+let stripeClient: Stripe | null = null;
+function getStripe(): Stripe {
+  if (stripeClient) return stripeClient;
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    // Defer error to runtime invocation rather than import time to avoid build-time failures
+    throw new Error('Stripe secret key is not configured');
+  }
+  stripeClient = new Stripe(secretKey);
+  return stripeClient;
+}
 
 export const paymentService = {
   async createPaymentIntent(amount: number, currency: string = 'usd') {
     try {
-      const paymentIntent = await stripe.paymentIntents.create({
+      const paymentIntent = await getStripe().paymentIntents.create({
         amount: Math.round(amount * 100), // Convert to cents
         currency,
         automatic_payment_methods: {
@@ -30,7 +39,7 @@ export const paymentService = {
     description: string;
   }) {
     try {
-      const session = await stripe.checkout.sessions.create({
+      const session = await getStripe().checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
           {
@@ -62,7 +71,7 @@ export const paymentService = {
 
   async verifyPayment(paymentIntentId: string) {
     try {
-      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      const paymentIntent = await getStripe().paymentIntents.retrieve(paymentIntentId);
       return paymentIntent.status === 'succeeded';
     } catch (error) {
       console.error('Payment verification error:', error);
@@ -72,7 +81,7 @@ export const paymentService = {
 
   async refundPayment(paymentIntentId: string, amount?: number) {
     try {
-      const refund = await stripe.refunds.create({
+      const refund = await getStripe().refunds.create({
         payment_intent: paymentIntentId,
         amount: amount ? Math.round(amount * 100) : undefined,
       });

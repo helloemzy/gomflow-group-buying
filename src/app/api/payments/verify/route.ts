@@ -26,7 +26,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the payment with Stripe
-    const isPaymentValid = await paymentService.verifyPayment(sessionId);
+    let isPaymentValid = false;
+    try {
+      isPaymentValid = await paymentService.verifyPayment(sessionId);
+    } catch (err) {
+      return NextResponse.json(
+        { error: 'Stripe not configured' },
+        { status: 500 }
+      );
+    }
 
     if (!isPaymentValid) {
       return NextResponse.json(

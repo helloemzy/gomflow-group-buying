@@ -12,12 +12,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const paymentIntent = await paymentService.createPaymentIntent(amount, currency);
+    try {
+      const paymentIntent = await paymentService.createPaymentIntent(amount, currency);
 
-    return NextResponse.json({
-      clientSecret: paymentIntent.client_secret,
-      paymentIntentId: paymentIntent.id,
-    });
+      return NextResponse.json({
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id,
+      });
+    } catch (err: any) {
+      return NextResponse.json(
+        { error: err?.message || 'Stripe not configured' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Payment intent creation error:', error);
     return NextResponse.json(

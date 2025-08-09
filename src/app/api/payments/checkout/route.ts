@@ -12,18 +12,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const session = await paymentService.createCheckoutSession({
+    try {
+      const session = await paymentService.createCheckoutSession({
       orderId,
       amount,
       currency: currency || 'usd',
       title,
       description: description || '',
-    });
+      });
 
-    return NextResponse.json({
-      sessionId: session.id,
-      url: session.url,
-    });
+      return NextResponse.json({
+        sessionId: session.id,
+        url: session.url,
+      });
+    } catch (err: any) {
+      // Hide Stripe init errors at build-time by deferring until request time
+      return NextResponse.json(
+        { error: err?.message || 'Stripe not configured' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
     console.error('Checkout session creation error:', error);
     return NextResponse.json(
