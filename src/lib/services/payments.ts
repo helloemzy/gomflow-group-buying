@@ -110,7 +110,7 @@ export const paymentService = {
 
   async updatePaymentStatus(participantId: string, status: 'verified' | 'rejected', verifiedBy: string) {
     try {
-      const supabase = createClient();
+      const supabase = createServerClient();
       
       const { data, error } = await supabase
         .from('order_participants')
