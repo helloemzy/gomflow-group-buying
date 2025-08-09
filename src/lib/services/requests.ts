@@ -63,8 +63,8 @@ export const requestService = {
       // If conflict, ignore
     }
 
-    // Update me_too_count via RPC-like update
-    await supabase.rpc('increment_me_too_count', { p_request_id: requestId }).catch(() => {})
+    // Update me_too_count via RPC-like update (best-effort, ignore errors)
+    await supabase.rpc('increment_me_too_count', { p_request_id: requestId })
   },
 
   async unvote(requestId: string) {
@@ -73,6 +73,6 @@ export const requestService = {
     if (!auth.user) throw new Error('Unauthorized')
 
     await supabase.from('request_votes').delete().eq('request_id', requestId).eq('user_id', auth.user.id)
-    await supabase.rpc('decrement_me_too_count', { p_request_id: requestId }).catch(() => {})
+    await supabase.rpc('decrement_me_too_count', { p_request_id: requestId })
   }
 }
