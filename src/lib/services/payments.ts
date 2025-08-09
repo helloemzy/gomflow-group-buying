@@ -1,9 +1,8 @@
 import Stripe from 'stripe';
 import { createClient as createServerClient } from '@/lib/supabase/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-06-20',
-});
+// Initialize Stripe without forcing apiVersion to avoid type mismatches with the installed SDK
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const paymentService = {
   async createPaymentIntent(amount: number, currency: string = 'usd') {

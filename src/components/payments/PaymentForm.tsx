@@ -12,7 +12,7 @@ import {
   FileText
 } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
-import { formatCurrency } from '@/lib/constants';
+// import { formatCurrency } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 // Badge not used here
